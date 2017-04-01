@@ -1,0 +1,11 @@
+.idea/
+
+**/project/target/
+**/target/
+
+/out/
+
+.idea_modules/
+
+*.gz
+*.pyc
