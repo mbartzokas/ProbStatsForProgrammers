@@ -19,40 +19,46 @@ def Pumpkin():
 print 'mean, variance, standard deviation', Pumpkin()
 
 # ex 2.2
-all, firstBabies, others = first.MakeTables()
-first.ProcessTables(firstBabies, others)
+all, firsts, others = first.MakeTables()
+first.ProcessTables(firsts, others)
 
-firstBabies.s = math.sqrt(thinkstats.Var(firstBabies.lengths, firstBabies.mu))
+firsts.s = math.sqrt(thinkstats.Var(firsts.lengths, firsts.mu))
 others.s = math.sqrt(thinkstats.Var(others.lengths, others.mu))
 
-print 'first babies mean:', firstBabies.mu, 'standard deviation:', firstBabies.s
+print 'first babies mean:', firsts.mu, 'standard deviation:', firsts.s
 print 'others mean:', others.mu, 'standard deviation:', others.s
-print 'mean difference (hours)', (firstBabies.mu - others.mu) * 7 * 24
-print 'spread difference (hours)', (firstBabies.s - others.s) * 7 * 24
+print 'mean difference (hours)', (firsts.mu - others.mu) * 7 * 24
+print 'spread difference (hours)', (firsts.s - others.s) * 7 * 24
 
 # Distributions
-hist = {}
-for length in firstBabies.lengths:
-    hist[length] = hist.get(length, 0) + 1
+firstsPrgLengthFreqDict = {}
+for length in firsts.lengths:
+    firstsPrgLengthFreqDict[length] = firstsPrgLengthFreqDict.get(length, 0) + 1
 
-print hist
+print firstsPrgLengthFreqDict
 
-pmf = {}
-n = float(firstBabies.n)
-for x, freq in hist.items():
-    pmf[x] = freq / n
+firstsPrgLengthProbDict = {}
+n = float(firsts.n)
+for x, freq in firstsPrgLengthFreqDict.items():
+    firstsPrgLengthProbDict[x] = freq / n
 
-print pmf
+print firstsPrgLengthProbDict
 
 # 2.3
 import Pmf
 def Mode(hist):
-    return max(hist.Items(), key=lambda (val, freq): freq)
+    return max(hist.items(), key=lambda (val, freq): freq)
 
-hist = Pmf.MakeHistFromList([1,2,2,3,5])
-print 'Mode', Mode(hist)
+# firstsHist = Pmf.MakeHistFromList([1, 2, 2, 3, 5])
+print 'Mode', Mode(firstsPrgLengthFreqDict)
 
 def AllModes(hist):
-    return sorted(hist.Items(), cmp=lambda f1,f2: f2 - f1 , key=operator.itemgetter(1))
+    return sorted(hist.items(), cmp=lambda f1,f2: f2 - f1 , key=operator.itemgetter(1))
 
-print 'All Modes', AllModes(hist)
+print 'All Modes', AllModes(firstsPrgLengthFreqDict)
+
+import matplotlib.pyplot as pyplot
+# vals, freqs =  .Render()
+rectangles = pyplot.bar(firstsPrgLengthFreqDict.keys(), firstsPrgLengthFreqDict.values())
+pyplot.show()
+
