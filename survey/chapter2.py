@@ -1,6 +1,7 @@
 import thinkstats
 import math
 import first
+import operator
 
 # ex 2.1
 class Pumpkin():
@@ -42,3 +43,16 @@ for x, freq in hist.items():
     pmf[x] = freq / n
 
 print pmf
+
+# 2.3
+import Pmf
+def Mode(hist):
+    return max(hist.Items(), key=lambda (val, freq): freq)
+
+hist = Pmf.MakeHistFromList([1,2,2,3,5])
+print 'Mode', Mode(hist)
+
+def AllModes(hist):
+    return sorted(hist.Items(), cmp=lambda f1,f2: f2 - f1 , key=operator.itemgetter(1))
+
+print 'All Modes', AllModes(hist)
