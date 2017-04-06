@@ -9,3 +9,5 @@
 *.iml
 *.gz
 *.pyc
+*.eps
+*.pdf

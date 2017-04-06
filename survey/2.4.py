@@ -11,11 +11,11 @@ def RemainingLifetimes(pmfLifetimes, age):
     return pmf
 
 histLifetimes = Pmf.MakeHistFromDict({70: '10', 65: '8', 67:'9', 55: '5', 35: '1', 80: '2'}, "Lifetime frequencies")
-# vals, freqs = histLifetimes.Render()
-# pyplot.bar(vals, freqs)
-# pyplot.show()
-
-remainingLifetimes = RemainingLifetimes(histLifetimes, 47)
-vals, freqs = remainingLifetimes.Render()
+vals, freqs = histLifetimes.Render()
 pyplot.bar(vals, freqs)
 pyplot.show()
+
+# remainingLifetimes = RemainingLifetimes(histLifetimes, 47)
+# vals, freqs = remainingLifetimes.Render()
+# pyplot.bar(vals, freqs)
+# pyplot.show()
