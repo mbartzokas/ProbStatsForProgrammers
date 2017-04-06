@@ -1,9 +1,7 @@
-def ProbInRange(pmf, range):
-    items = pmf.Items()
-    print "items", items
-    filteredItems = filter(lambda (v,f): range(v), items)
-    print "filtered items", filteredItems
-    return float(len(filteredItems)) / len(pmf.Items())
+def ProbInRange(pmf, inTime):
+    filteredPrgLengths = {prgLength:prob for prgLength,prob in pmf.Items() if inTime(prgLength)}
+    print "filtered pregnancy legths", filteredPrgLengths
+    return sum(filteredPrgLengths.values())
 
 def ProbEarly(pmf):
     def isEarly(value):
