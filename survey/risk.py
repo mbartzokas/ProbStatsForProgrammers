@@ -18,12 +18,12 @@ def ProbLate(pmf):
     return  ProbInRange(pmf, isLate)
 
 
-def FindAndPrintProbs(pmf):
+def FindAndPrintProbs(pmfName, probEarly, probOnTime, probLate):
     print '{0} pregnancy length probabilities:\nEarly {1:.2f}%\nOn Time {2:.2f}%\nLate {3:.2f}%\n'.format(
-        pmf.name,
-        ProbEarly(pmf) * 100,
-        ProbOnTime(pmf) * 100,
-        ProbLate(pmf) * 100
+        pmfName,
+        probEarly * 100,
+        probOnTime * 100,
+        probLate * 100
     )
 
 import first
@@ -33,6 +33,24 @@ first.ProcessTables(all, firsts, others)
 
 import Pmf
 
-FindAndPrintProbs(Pmf.MakePmfFromList(firsts.lengths, "First Babies"))
-FindAndPrintProbs(Pmf.MakePmfFromList(others.lengths, "Other Babies"))
-FindAndPrintProbs(Pmf.MakePmfFromList(all.lengths, "All Babies"))
+pmfFirst = Pmf.MakePmfFromList(firsts.lengths, "First Babies")
+firstProbEarly = ProbEarly(pmfFirst)
+firstProbOnTime = ProbOnTime(pmfFirst)
+firstProbLate = ProbLate(pmfFirst)
+FindAndPrintProbs(pmfFirst.name, firstProbEarly, firstProbOnTime, firstProbLate)
+
+pmfOthers = Pmf.MakePmfFromList(others.lengths, "Other Babies")
+otherProbEarly = ProbEarly(pmfOthers)
+otherProbOnTime = ProbOnTime(pmfOthers)
+otherProbLate = ProbLate(pmfOthers)
+FindAndPrintProbs(pmfOthers.name, otherProbEarly, otherProbOnTime, otherProbLate)
+
+pmfAll = Pmf.MakePmfFromList(all.lengths, "All Babies")
+allProbEarly = ProbEarly(pmfAll)
+allProbOnTime = ProbOnTime(pmfAll)
+allProbLate = ProbLate(pmfAll)
+FindAndPrintProbs(pmfAll.name, allProbEarly, allProbOnTime, allProbLate)
+
+print "first vs others relative risk: early", firstProbEarly / otherProbEarly
+print "first vs others relative risk: on time", firstProbOnTime / otherProbOnTime
+print "first vs others relative risk: late", firstProbLate / otherProbLate
