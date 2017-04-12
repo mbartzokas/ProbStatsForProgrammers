@@ -3,19 +3,13 @@ def ProbInRange(pmf, IsWithinTimeRange):
     return sum(filteredPrgLengths.values())
 
 def ProbEarly(pmf):
-    def isEarly(value):
-        return value <= 37
-    return ProbInRange(pmf, isEarly)
+    return ProbInRange(pmf, lambda week: week <= 37)
 
 def ProbOnTime(pmf):
-    def isOnTime(value):
-        return 38 <= value <= 40
-    return ProbInRange(pmf, isOnTime)
+    return ProbInRange(pmf, lambda week: 38 <= week <= 40)
 
 def ProbLate(pmf):
-    def isLate(value):
-        return value >= 41
-    return  ProbInRange(pmf, isLate)
+    return ProbInRange(pmf, lambda week: week >= 41)
 
 
 def FindAndPrintProbs(pmfName, probEarly, probOnTime, probLate):
