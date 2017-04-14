@@ -27,8 +27,8 @@ def conceptuallyClearSolution(pmf, x):
     print 'PMF({2}): {0} \nConditional PMF(39): {1}'.format(pmf.Prob(x), conditionalPmf.Prob(x), x)
 
 
-def moreEfficientSolution(pmf, x):
-    print '*** More efficient solution ***'
+def ConditionalPmfMoreEfficient(pmf, x):
+    # print '*** More efficient solution ***'
 
     conditionalPmf = pmf.Copy(pmf.name + " with pregnancy length >= x weeks")
     for length in pmf.Values():
@@ -36,8 +36,21 @@ def moreEfficientSolution(pmf, x):
             conditionalPmf.Remove(length)
 
     conditionalPmf.Normalize()
-    print 'PMF({2}): {0} \nConditional PMF({2}): {1}'.format(pmf.Prob(x), conditionalPmf.Prob(x), x)
+    return conditionalPmf
+    # print 'PMF({2}): {0} \nConditional PMF({2}): {1}'.format(pmf.Prob(x), conditionalPmf.Prob(x), x)
 
 
-conceptuallyClearSolution(firstBabiesPFM(), 39)
-moreEfficientSolution(firstBabiesPFM(), 39)
+# conceptuallyClearSolution(firstBabiesPFM(), 39)
+# moreEfficientSolution(firstBabiesPFM(), 39)
+
+
+pmf = firstBabiesPFM()
+lengths = pmf.Values()
+print 'lengths', lengths
+conditionalProbs = [ConditionalPmfMoreEfficient(pmf, length).Prob(length) for length in lengths]
+print 'Probabilities born at x given not born before x', conditionalProbs
+
+import matplotlib.pyplot as pyplot
+
+m = pyplot.bar(lengths, conditionalProbs)
+pyplot.show()
