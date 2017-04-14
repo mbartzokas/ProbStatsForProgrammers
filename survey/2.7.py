@@ -10,14 +10,15 @@ def firstBabiesPFM():
 
 def firstAlgorithm(pmf):
     # 1
-    prgLengthToNumberOfPregnancies = [(prgLength, int(1000 * pmf.Prob(prgLength))) for prgLength in pmf.Values()]
+    lengthsToCounts = {length: int(1000 * pmf.Prob(length)) for length in pmf.Values()}
+    print 'lengthsToCounts', lengthsToCounts
     # 2
-    gtEq39 = [prgLength[1] for prgLength in prgLengthToNumberOfPregnancies if prgLength[0] >= 39]
-    print gtEq39
+    gtEq39 = {lengthToCount[0]: 0 if lengthToCount[0] < 39 else lengthToCount[1] for lengthToCount in
+              lengthsToCounts.items()}
+    print 'lengthsToCountGtEq39', gtEq39
     # 3
-    conditionalPmf = Pmf.MakePmfFromList(gtEq39)
+    conditionalPmf = Pmf.MakePmfFromDict(gtEq39)
     # 4
-    print pmf.Prob(39)
     print 'PMF(39): {0} \nConditional PMF(39): {1}'.format(pmf.Prob(39), conditionalPmf.Prob(39))
 
 
