@@ -196,6 +196,7 @@ class Pmf(_DictWrapper):
             logging.warning('Normalize: total probability is zero.')
             return
 
+        # ex; 1 / 0.8 =>1.something. So x * 1.something you increase x by something
         factor = float(fraction) / total
         for x in self.d:
             self.d[x] *= factor

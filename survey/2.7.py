@@ -12,39 +12,32 @@ def generateFakeCohortAsDict(pmf, size):
     return {length: int(size * pmf.Prob(length)) for length in pmf.Values()}
 
 
-def firstSolution(pmf):
+def conceptuallyClearSolution(pmf, x):
     print '*** Conceptually clear solution ***'
     # 1
     cohort = generateFakeCohortAsDict(pmf, 1000)
     print 'cohort', cohort
     # 2
-    cohortGtEq39 = {lengthToCount[0]: 0 if lengthToCount[0] < 39 else lengthToCount[1] for lengthToCount in
-                    cohort.items()}
-    print 'cohort with lengths >= 39', cohortGtEq39
+    cohortGtEqX = {lengthToCount[0]: 0 if lengthToCount[0] < x else lengthToCount[1] for lengthToCount in
+                   cohort.items()}
+    print 'cohort with lengths >= ', x, cohortGtEqX
     # 3
-    conditionalPmf = Pmf.MakePmfFromDict(cohortGtEq39, pmf.name + " with pregnancy length >= 39")
+    conditionalPmf = Pmf.MakePmfFromDict(cohortGtEqX, pmf.name + ' with pregnancy length >= {0}'.format(x))
     # 4
-    print 'PMF(39): {0} \nConditional PMF(39): {1}'.format(pmf.Prob(39), conditionalPmf.Prob(39))
+    print 'PMF({2}): {0} \nConditional PMF(39): {1}'.format(pmf.Prob(x), conditionalPmf.Prob(x), x)
 
 
-def moreEfficientSolution(pmf):
+def moreEfficientSolution(pmf, x):
     print '*** More efficient solution ***'
-    # 1
-    # cohort = generateFakeCohortAsDict(pmf, 1000)
-    # print 'cohort', cohort
-    # # 2
-    # for length in cohort.keys():
-    #     if length < 39:
-    #         pmf.Remove(length)
 
-    conditionalPmf = pmf.Copy(pmf.name + " with pregnancy length >= 39")
+    conditionalPmf = pmf.Copy(pmf.name + " with pregnancy length >= x weeks")
     for length in pmf.Values():
-        if length < 39:
+        if length < x:
             conditionalPmf.Remove(length)
 
     conditionalPmf.Normalize()
-    print 'PMF(39): {0} \nConditional PMF(39): {1}'.format(pmf.Prob(39), conditionalPmf.Prob(39))
+    print 'PMF({2}): {0} \nConditional PMF({2}): {1}'.format(pmf.Prob(x), conditionalPmf.Prob(x), x)
 
 
-firstSolution(firstBabiesPFM())
-moreEfficientSolution(firstBabiesPFM())
+conceptuallyClearSolution(firstBabiesPFM(), 39)
+moreEfficientSolution(firstBabiesPFM(), 39)
