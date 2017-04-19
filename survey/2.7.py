@@ -1,11 +1,17 @@
-import first
 import Pmf
+import first
 
 
 def firstBabiesPFM():
     all, firsts, others = first.MakeTables()
     first.ProcessTables(all, firsts, others)
     return Pmf.MakePmfFromList(firsts.lengths, "First Babies")
+
+
+def otherBabiesPMF():
+    all, firsts, others = first.MakeTables()
+    first.ProcessTables(all, firsts, others)
+    return Pmf.MakePmfFromList(others.lengths, "Other Babies")
 
 
 def generateFakeCohortAsDict(pmf, size):
@@ -46,11 +52,17 @@ def ConditionalPmfMoreEfficient(pmf, x):
 
 pmf = firstBabiesPFM()
 lengths = pmf.Values()
-print 'lengths', lengths
 conditionalProbs = [ConditionalPmfMoreEfficient(pmf, length).Prob(length) for length in lengths]
 print 'Probabilities born at x given not born before x', conditionalProbs
 
 import matplotlib.pyplot as pyplot
 
-m = pyplot.bar(lengths, conditionalProbs)
+pyplot.bar(lengths, conditionalProbs)
+pyplot.show()
+
+pmfOthers = otherBabiesPMF()
+otherLengths = pmf.Values()
+othersConditionalProbs = [ConditionalPmfMoreEfficient(pmfOthers, length).Prob(length) for length in otherLengths]
+
+pyplot.bar(otherLengths, othersConditionalProbs)
 pyplot.show()
